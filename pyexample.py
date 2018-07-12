@@ -305,7 +305,7 @@ def train_process(pid):
 
             # Skip-gram
             else:
-                """ """
+                """ 
                 for context_word in context:
                     # Init neu1e with zeros
                     neu1e = np.zeros(dim)
@@ -324,9 +324,8 @@ def train_process(pid):
 
                     # Update syn0
                     syn0[context_word] += neu1e
-
-
                 """
+
                 for context_word in context:
                     # Init neule with zeros
                     neu1e = np.zeros(dim)
@@ -349,7 +348,7 @@ def train_process(pid):
 
                     # Update syn0
                     syn0[context_word] += neu1e
-                """
+                """ """
 
                 """ 
                 nbnb = generate_nn_matrix(vocab)
@@ -466,9 +465,9 @@ if __name__ == '__main__':
     # TO DO: parser.add_argument('-epoch', help='Number of training epochs', dest='epoch', default=1, type=int)
     args = parser.parse_args()
     """
-    argsfi = "./text.corpus"
-    argsfo = "./output.embedding"
-    argscbow = 1
+    argsfi = "./citeseer_n80_l10_w10_k80_deepwalk_node_corpus.corpus"
+    argsfo = "./output_exp.embedding"
+    argscbow = 0
     argsneg = 10
     argsdim = 128
     argsalpha = 0.025
