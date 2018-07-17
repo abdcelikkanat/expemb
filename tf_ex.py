@@ -82,11 +82,13 @@ data, word_count_pairs, word2id, id2word = build_vocab(corpus)
 
 vocabulary_size = len(word_count_pairs)
 embedding_size = 128
-num_of_neg_samples = 5
+
 log_dir = "./tf.log"
-num_of_iters = 400000
+num_of_iters = 500000
 window_size = 10
 batch_size = 3*(window_size**2) - window_size +  ( len(corpus[0]) - (2*window_size) ) * (2*window_size)
+num_of_neg_samples = 5*batch_size
+
 
 #print(len(target_list))
 # Tensorflow
@@ -201,7 +203,7 @@ with graph.as_default():
                            true_classes=labels_matrix,
                            num_true=1,
                            num_sampled=num_of_neg_samples,
-                           unique=True,
+                           unique=False,
                            range_max=vocabulary_size,
                            distortion=0.75,
                            unigrams=[word_count_pairs[i][1] for i in range(vocabulary_size)])  # word_id_freq_map_as_list is the
@@ -261,7 +263,7 @@ with tf.Session(graph=graph) as session:
 summary_file_writer.close()
 
 #print([len(final_embeddings)])
-embed_file = "output2.embedding"
+embed_file = "output3.embedding"
 with open(embed_file, 'w') as f:
     f.write("{} {}\n".format(vocabulary_size, embedding_size))
     inx_list = range(len(final_embeddings))
