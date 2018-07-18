@@ -173,7 +173,7 @@ with graph.as_default():
     loss /= ((batch_size+1)*num_of_neg_samples)
     """
 
-    loss = tf.reduce_sum(tf.nn.nce_loss(weights=nce_weights,
+    loss = tf.reduce_mean(tf.nn.nce_loss(weights=nce_weights,
                           biases=nce_biases,
                           labels=train_labels,
                           inputs=embed,
@@ -223,9 +223,11 @@ with tf.Session(graph=graph) as session:
         batch_inputs, batch_labels = get_batch(doc_index, window_size, data)
 
         feed_dict = {train_inputs: [batch_inputs[word_pos]], train_labels: [[batch_labels[word_pos, 0]]]}
-
+        #print(word_pos)
+        #print("-----------")
+        #print(doc_index)
         word_pos += 1
-        if word_pos >= len(data[0]):
+        if word_pos >= batch_size:
             word_pos = 0
             doc_index += 1
         if doc_index >= len(data):
@@ -250,7 +252,7 @@ with tf.Session(graph=graph) as session:
 summary_file_writer.close()
 
 #print([len(final_embeddings)])
-embed_file = "output4.embedding"
+embed_file = "output5.embedding"
 with open(embed_file, 'w') as f:
     f.write("{} {}\n".format(vocabulary_size-1, embedding_size))
     inx_list = range(len(final_embeddings))
